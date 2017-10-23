@@ -1,11 +1,16 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>Joel Hanson</title>
-	</head>
-	<body>
-<h1>hello world template</h1>
-{{ shit }}
-	</body>
+
+<head>
+	<meta charset="utf-8">
+	<title>Joel Hanson</title>
+<link rel="stylesheet" href={%static "styles/mystyle.css" %}>
+</head>
+
+<body>
+	<h1>hello world template</h1>
+	<img src="{% static "images/pics.jpg" %}" alt="image" class="full">
+</body>
+
 </html>
