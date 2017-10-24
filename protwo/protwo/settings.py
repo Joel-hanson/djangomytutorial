@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 	# 'apptwo',
 	'apptwo.apps.ApptwoConfig',
+	# 'aldjemy',
 ]
 
 MIDDLEWARE = [

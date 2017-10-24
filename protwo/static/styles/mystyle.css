@@ -1,12 +1,37 @@
 body,html{
 	padding: 0;
 	margin: 0;
+	background-color: #263238;
+	font-family: sans-serif;
 }
 img {
-	width: 50%;
-	height: 50%;
-	margin:  25px;
+	width: 100%;
+	height: 100%;
 }
 h1{
 	font-family: sans-serif;
+}
+.container{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+padding: 25px;
+}
+.table{
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.25), 0 6px 20px 0 rgba(0, 0, 0, 0.49);
+
+}
+table, th, td {
+   border: 1px solid black;
+	 border-collapse: collapse;
+	 padding: 20px;
+}
+thead{
+	border: 1px solid black;
+	background-color: #ef5350;
+	color:white;
+
+}
+tbody{
+	background-color: #fff;
 }

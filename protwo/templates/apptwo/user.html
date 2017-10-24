@@ -18,14 +18,17 @@
 		{% if access_record %}
 <table class="table">
 	<thead>
-		<th>Site Name</th>
-		<th>Date Accessed</th>
+		<th>Email</th>
+		<th>Firstname</th>
+		<th>Lastname</th>
+
 	</thead>
 	<tbody>
 		{% for acc in access_record %}
 		<tr>
-			<td>{{ acc.name }}</td>
-			<td>{{ acc.date }}</td>
+			<td>{{ acc.email }}</td>
+			<td>{{ acc.firstname }}</td>
+			<td>{{ acc.lastname }}</td>
 		</tr>
 		{% endfor %}
 	</tbody>
