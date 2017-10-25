@@ -2,5 +2,5 @@
 
 {% extends "appthree/base.html" %}
 {% block body_block %}
-<h1>{{data|upper}}</h1>
+<h1>{{data|cut:"wo"|upper}}</h1>
 {% endblock %}
