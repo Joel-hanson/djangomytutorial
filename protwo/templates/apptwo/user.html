@@ -15,7 +15,7 @@
 
 	<div class="container">
 		<!-- <img src="{% static "images/pics.jpg" %}" alt="image" class="full"> -->
-		{% if access_record %}
+		<!-- {% if access_record %}
 <table class="table">
 	<thead>
 		<th>Email</th>
@@ -35,7 +35,13 @@
 </table>
 {% else %}
 <p>no access record</p>
-{% endif %}
+{% endif %} -->
+<h1>sign in here</h1>
+<form class="form" method="post">
+{{ form.as_p }}
+{% csrf_token %}
+<input type="submit" class="btn btn-primary" name="" value="submit">
+</form>
 	</div>
 </body>
 
