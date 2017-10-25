@@ -20,11 +20,16 @@ def user(request):
 	# webpage_list = UserInfo.objects.order_by('firstname')
 	# email_dict = {"access_record":webpage_list}
 	form = NewUser()
+	print(request.POST)
 	if request.method == "POST":
 		form = NewUser(request.POST)
 		if form.is_valid():
-			form.save(commit = True)
-			return index(request)
+			# form.save(commit = True)
+			return data(request)
 		else:
 			print("error")
 	return render(request,'apptwo/user.html',{'form':form})
+
+def data(request):
+	print(request)
+	return render(request,'apptwo/data.html',{'data':request.POST})
