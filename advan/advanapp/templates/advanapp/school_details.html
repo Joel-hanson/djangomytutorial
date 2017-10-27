@@ -1,0 +1,19 @@
+{% extends "advanapp/advanapp_base.html"%}
+{% block body_block %}
+<div class="jumbotron">
+	<h1>Welcome to school details</h1>
+	<h2>school details:</h2>
+	<p>Name: {{school_test.name}}</p>
+	<p>Principle: {{school_test.principle }}</p>
+	<p>Location: {{school_test.location }}</p>
+<h3>Students:</h3>
+{% for student in school_test.students.all %}
+<p>{{student.name}} who is {{student.age}} years old.</p>
+{% endfor %}
+</div>
+<ol>
+	{% for school in schools %}
+	<h2><li>{{school.name}}</li></h2>
+	{% endfor %}
+</ol>
+{% endblock %}
