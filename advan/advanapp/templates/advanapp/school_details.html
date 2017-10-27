@@ -3,11 +3,15 @@
 <div class="jumbotron">
 	<h1>Welcome to school details</h1>
 	<h2>school details:</h2>
-	<p>Name: {{school_test.name}}</p>
-	<p>Principle: {{school_test.principle }}</p>
-	<p>Location: {{school_test.location }}</p>
+	<p>Name: {{school_detail.name}}</p>
+	<p>Principle: {{school_detail.principle }}</p>
+	<p>Location: {{school_detail.location }}</p>
+	<div class="container">
+		<p><a class="btn btn-warning" href="{% url 'advanapp:update' pk=school_detail.pk %}">Update</a></p>
+	</div>
+
 <h3>Students:</h3>
-{% for student in school_test.students.all %}
+{% for student in school_detail.students.all %}
 <p>{{student.name}} who is {{student.age}} years old.</p>
 {% endfor %}
 </div>
