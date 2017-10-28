@@ -16,9 +16,11 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.contrib import admin
 from appfour import views
+from django.contrib.auth import views #importing some views from the authorization app
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.index,name="index"),
-    url(r'^appfour/',include('appfour.urls')),
-
+    url(r'',include('appfour.urls')),
+	url(r'^accounts/login/$', views.login, name='login'),
+    url(r'^accounts/logout/$', views.logout, name='logout', kwargs={'next_page':'/'}),
+    url(r'^accounts/profile/',include('appfour.urls')),
 ]

@@ -1,7 +1,16 @@
-<!DOCTYPE html>
-{% extends "appfour/base.html" %}
-{% block body_block %}
-<div >
-	<h1>django level</h1>
+<!DOCTYPE html> {% extends "appfour/base.html" %} {% block content %} {% if user.is_authenticated %}
+{% load staticfiles %}
+
+
+
+
+		</div>
+	</div>
+
+
 </div>
-{% endblock %}
+{% else %}
+<div>
+	<h1>You are not logged in</h1>
+</div>
+{% endif %} {% endblock %}

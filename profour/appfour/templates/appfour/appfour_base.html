@@ -32,12 +32,13 @@
 </ul>
 				<ul class="navbar-nav ml-auto">
 					{% if user.is_authenticated %}
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'logout'%}">logout</a>
-					</li>
 					<li class="nav-item nav-right">
 						<a class="nav-link" href="{% url 'appfour:list'%}">Report</a>
 						</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'logout'%}">logout</a>
+					</li>
+
 					{% else %}
 					<li class="nav-item">
 						<a class="nav-link" href="{% url 'login'%}">login</a>
@@ -49,6 +50,7 @@
 
 	<div class="jumbotron">
 		<div class="container" style="text-align:center;">
+			
 			{% block content %} {% endblock %}
 		</div>
 

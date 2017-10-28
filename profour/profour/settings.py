@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'profour.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'joel',
+        'NAME': 'test',
 		'USER': 'admin',
 		'PASSWORD': 'tms@123',
 		'HOST': '127.0.0.1',

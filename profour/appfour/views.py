@@ -1,8 +1,27 @@
 from django.shortcuts import render
 from appfour.forms import UserProfileInfoForm,UserForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import (TemplateView, ListView,
+                                    DetailView, CreateView,
+                                    UpdateView, DeleteView)
+from appfour.models import TravelDetails
+from appfour.forms import TravelDetailsForm
 # Create your views here.
-def index(request):
-	return render(request,'appfour/index.html')
+
+
+
+class IndexView(LoginRequiredMixin,CreateView):
+	login_url = '/login/' # if this person is not logged in, where should this person go? To login_url
+	context_object_name = 'form'
+	model = TravelDetails
+	fields = ('username','origin','desitination','paxname','amount','created_date')
+	template_name = 'appfour/travel_insert.html'
+
+class TravelListView(LoginRequiredMixin,ListView):
+	context_object_name = 'form'
+	model = TravelDetails
+	template_name = 'appfour/travel_list.html'
 
 def register(request):
 	registered = False
@@ -17,10 +36,6 @@ def register(request):
 			profile = profile_form.save(commit = False)
 			profile.user = user
 			print(profile)
-
-			if 'picture' in request.FILES:
-				profile.picture = request.FILES['picture']
-
 			profile.save()
 			registered = True
 		else:
@@ -30,3 +45,9 @@ def register(request):
 		profile_form = UserProfileInfoForm()
 		print("Not POST")
 	return render(request,'appfour/register.html',{'user_form':user_form,'profile_form':profile_form,'registered':registered})
+#
+# class ReportListView(LoginRequiredMixin,ListView):
+# 	login_url = '/login/'
+#     # redirect_field_name = 'appfour/repost.html'
+# 	template_name = 'appfour/repost.html'
+#     model = TravelDetails

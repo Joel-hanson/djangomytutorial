@@ -1,0 +1,32 @@
+{% extends "appfour/appfour_base.html"%} {% block content %}
+{% load staticfiles %}
+<div class="d-flex justify-content-center">
+	<div class="row">
+	{% for f in form %}
+	<div class="col-12 d-flex justify-content-center">
+	<div class="card border-primary mb-3" style="width: 20rem;">
+  <div class="card-header">{{f.created_date}}</div>
+  <div class="card-body ">
+		<div class="row">
+			<div class="col-5">
+				{{f.origin}}
+			</div>
+			<div class="card-title col-2">
+			<img src="{% static 'images/arrow.svg' %}" alt="">
+			</div>
+			<div class="card-title col-5">
+				{{f.desitination}}
+			</div>
+		</div>
+		<h5  class="card-text">paxname: {{f.paxname}} </h5>
+		<h5 class="card-text">Amount: {{f.amount}}</h5>
+  </div>
+</div>
+</div>
+{% endfor %}
+</div>
+
+</div>
+
+
+ {% endblock %}

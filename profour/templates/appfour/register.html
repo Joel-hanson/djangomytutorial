@@ -1,19 +1,57 @@
-<!DOCTYPE html>
-{% extends "appfour/base.html" %}
-{% load staticfiles %}
-{% block body_block %}
-<div >
-	<h1>django register</h1>
-{% if registered %}
-	<h1>registered</h1>
-{% else %}
-<h1>register here</h1>
-<form  enctype="multipart/form-data" method="post">
-	{% csrf_token %}
-	{{ user_form.as_p }}
-	{{ profile_form.as_p }}
-	<input type="submit" name="" value="Register">
-</form>
-{% endif %}
+<!DOCTYPE html> {% extends "appfour/base.html" %} {% load staticfiles %} {% block content %}
+{% load appfour_extras %}
+
+<div>
+	<h1>Registration Test</h1>
+	<br> {% if registered %}
+	<h1>Registered</h1>
+	<br> {% else %}
+	<br>
+	<form enctype="multipart/form-data" method="post" class="d-flex justify-content-center">
+		{% csrf_token %}
+		<div class="card text-center" style="width: 30rem;">
+			<div class="card-header">
+				<h4>Register Here</h4>
+			</div>
+			<div class="card-block" style="margin:30px">
+				{{ user_form.non_field_errors }}
+				<div class="form-group row">
+					{{ user_form.first_name.errors }}
+					<label for="{{ user_form.first_name.id_for_label }}">First Name: </label> {{ user_form.first_name}}
+				</div>
+				<div class="form-group row">
+					{{ user_form.origin.errors }}
+					<label for="{{ user_form.origin.id_for_label }}">Last Name: </label> {{ user_form.origin }}
+				</div>
+				<div class="form-group row">
+					{{ user_form.email.errors }}
+					<label for="{{ user_form.email.id_for_label }}">Your email address:</label> {{ user_form.email }}
+					<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+				</div>
+				<div class="form-group row">
+					{{ user_form.username.errors }}
+					<label for="{{ user_form.username.id_for_label }}">Username :</label> {{ user_form.username }}
+					<small id="emailHelp" class="form-text text-muted">We'll never share your username with anyone else.</small>
+				</div>
+				<div class="form-group row">
+					{{ profile_form.password.errors }}
+					<label for="{{ profile_form.password.id_for_label }}">Password: </label> {{ profile_form.password|addcss:"form-control" }}
+				</div>
+				{{ profile_form.non_field_errors }}
+					<div class="form-group row">
+						{{ profile_form.confirm_password.errors }}
+						<label for="{{ profile_form.confirm_password.id_for_label }}">Confirm Password: </label> {{ profile_form.confirm_password|addcss:"form-control" }}
+					</div>
+					{{ profile_form.department.errors }}
+					<div class="form-group row">
+						<label for="{{ profile_form.department.id_for_label }}">Department: </label>{{ profile_form.department}}
+					</div>
+					{{ profile_form.non_field_errors }}
+					<input type="submit" class="btn btn-primary" name="" value="Register">
+
+
+		</div>
+	</form>
+	{% endif %}
 </div>
 {% endblock %}
