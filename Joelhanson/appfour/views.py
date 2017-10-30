@@ -1,24 +1,34 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponseRedirect
 from appfour.forms import UserProfileInfoForm,UserForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (TemplateView, ListView,
                                     DetailView, CreateView,
-                                    UpdateView, DeleteView)
+                                    UpdateView, DeleteView,FormView)
 from appfour.models import TravelDetails
 from appfour.forms import TravelDetailsForm
+
+
 # Create your views here.
 
 
-
 class IndexView(LoginRequiredMixin,CreateView):
-	login_url = '/login/' # if this person is not logged in, where should this person go? To login_url
+	login_url = 'login' # if this person is not logged in, where should this person go? To login_url
 	context_object_name = 'form'
 	model = TravelDetails
-	fields = ('username','origin','desitination','paxname','amount','created_date')
+	fields = ('origin','desitination','paxname','amount','created_date')
 	template_name = 'appfour/travel_insert.html'
+	success_url = 'list'
+	def form_valid(self, form):
+		self.object = form.save(commit=False)
+		self.object.author = self.request.user
+		self.object.save()
+		return super().form_valid(form)
+
+
 
 class TravelListView(LoginRequiredMixin,ListView):
+	login_url = 'login' # if this person is not logged in, where should this person go? To login_url
 	context_object_name = 'form'
 	model = TravelDetails
 	template_name = 'appfour/travel_list.html'
@@ -30,12 +40,10 @@ def register(request):
 		profile_form = UserProfileInfoForm(data = request.POST)
 		if user_form.is_valid() and profile_form.is_valid():
 			user = user_form.save()
-			user.set_password(user.password)
-			user.save()
-
 			profile = profile_form.save(commit = False)
+			user.set_password(profile.password)
+			user.save()
 			profile.user = user
-			print(profile)
 			profile.save()
 			registered = True
 		else:

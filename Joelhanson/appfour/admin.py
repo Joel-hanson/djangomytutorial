@@ -1,6 +1,5 @@
 from django.contrib import admin
-from appfour.models import UserProfileInfo,TravelDetails,Places
+from appfour.models import UserProfileInfo,TravelDetails
 # Register your models here.
 admin.site.register(UserProfileInfo)
 admin.site.register(TravelDetails)
-admin.site.register(Places)

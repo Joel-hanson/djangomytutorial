@@ -37,7 +37,7 @@ class UserProfileInfoForm(forms.ModelForm):
 		 )
 
 class TravelDetailsForm(forms.ModelForm):
-	created_date = forms.DateField(widget=forms.DateInput)
+	# created_date = forms.DateField(widget=forms.DateInput)
 	class Meta():
 		model = TravelDetails
-		fields =  ('username','origin','desitination','paxname','amount','created_date')
+		fields =  ('origin','desitination','paxname','amount','created_date')
