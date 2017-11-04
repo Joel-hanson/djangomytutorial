@@ -1,0 +1,12 @@
+{% extends "firstapp/base.html" %}
+{% load staticfiles %}
+{% block content %}
+{% if user.is_authenticated %}
+<div>
+<h1>you are logged in</h1>
+</div>
+{% else %}
+<div>
+	<h1>You are not logged in</h1>
+</div>
+{% endif %} {% endblock %}

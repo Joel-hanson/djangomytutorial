@@ -1,0 +1,13 @@
+{% load rest_framework %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<html><body>
+
+<h1>Profile - {{ profile.name }}</h1>
+
+<form action="http://localhost/employee/entry/" method="POST">
+    {% csrf_token %}
+    {% render_form serializer template_pack='rest_framework/vertical'%}
+    <input type="submit" value="Save">
+</form>
+
+</body></html>

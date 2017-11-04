@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
 from appfour.models import UserProfileInfo,TravelDetails
-from django.db import models
 
 class UserForm(forms.ModelForm):
 	class Meta():
