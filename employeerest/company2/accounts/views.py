@@ -1,17 +1,33 @@
-from django.shortcuts import render
-from django.core.urlresolvers import reverse_lazy #Reverse lazy we user to say, if someone is logged in or loggin out, where he should actually go
-from django.views.generic import CreateView
-
-from accounts import forms
-# Create your views here.
-
-class SingUp(CreateView):
-
-    #   Note here that we are NOT instantiating the class. Just passing the reference
-    #All we are doing here is that this attritube is equals to that class.
-    form_class = forms.UserCreateForm
-
-    # Once somene has signed up for our website. Then, with a succesfull
-    #signup, he will be reversed to the login page.
-    success_url = reverse_lazy('login')
-    template_name = "accounts/signup.html"
+# from django.shortcuts import render
+# from django.core.urlresolvers import reverse_lazy #Reverse lazy we user to say, if someone is logged in or loggin out, where he should actually go
+from django.views.generic import CreateView,TemplateView
+#
+# from accounts import forms
+# # Create your views here.
+#
+#
+# def register(request):
+# 	registered = False
+# 	if request.method == "POST":
+# 		user_form = UserForm(data = request.POST)
+# 		profile_form = UserProfileInfoForm(data = request.POST)
+# 		if user_form.is_valid() and profile_form.is_valid():
+# 			user = user_form.save()
+# 			profile = profile_form.save(commit = False)
+# 			user.set_password(profile.password)
+# 			user.save()
+# 			profile.user = user
+# 			profile.save()
+# 			registered = True
+# 		else:
+# 			print(user_form.errors,profile_form.errors)
+# 	else:
+# 		user_form = UserCreateForm()
+# 		profile_form = UserProfileInfoForm()
+# 		print("Not POST")
+# 	return render(request,'accounts/signup.html',{'user_form':user_form,'profile_form':profile_form,'registered':registered})
+# #
+# class SignUp(TemplateView):
+# 	pass
+class TestView():
+	pass

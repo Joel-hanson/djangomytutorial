@@ -5,10 +5,10 @@ from accounts import views #My own views
 app_name = 'accounts' #in case I want to use the url templates
 
 urlpatterns = [
-    url(r'login/$',auth_views.LoginView.as_view(template_name='accounts/login.html'),
-                name='login'),
-    url(r'logout/$', auth_views.LogoutView.as_view(), # the logout view has a default one
-                name='logout'), #this will essentially come back to the home page when we logout
-    url(r'signup/$', views.SingUp.as_view(),name='signup'),
-
+    # url(r'login/$',auth_views.LoginView.as_view(template_name='accounts/login.html'),
+    #             name='login'),
+    # url(r'logout/$', auth_views.LogoutView.as_view(), # the logout view has a default one
+    #             name='logout'), #this will essentially come back to the home page when we logout
+    # url(r'signup/$', views.SingUp.as_view(),name='signup'),
+	url(r'^test/$',views.TestView.as_Views(),name='test')
 ]
