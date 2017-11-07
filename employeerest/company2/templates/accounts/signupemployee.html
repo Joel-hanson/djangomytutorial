@@ -1,0 +1,199 @@
+{% extends "base.html" %} {% block content %}
+<style media="screen">
+	.tabborder {
+		border: 1px solid black;
+	}
+th{
+	margin: 40px;
+}
+</style>
+<title>Employee Title</title>
+<div class="container padtop ">
+
+
+
+
+	<div class="row">
+		<div class="col s10 offset-s1 m10 offset-m1 l10 offset-l1 ">
+
+			<div class="card blue-grey lighten-5 ">
+				<ul id="tabs-swipe-demo" class="tabs">
+					<li class="tab col s4"><a class="active" href="#test-swipe-1">Enter employee</a></li>
+					<li class="tab col s4"><a href="#test-swipe-2" onclick="listemployee()">List Employee</a></li>
+					<li class="tab col s4"><a href="#test-swipe-3">Update Employee</a></li>
+				</ul>
+
+
+
+				<div id="test-swipe-1" class="col s12 ">
+					<div class="card-content">
+						<form class="col s12" id='employee_form'>
+							<span class="card-title">Sign Up An Employee</span>
+							<div class="row">
+
+								<div class="input-field col s12">
+									<input id="email" type="email" class="validate">
+									<label for="email">Email Address</label>
+								</div>
+								<div class="input-field col s12">
+									<input id="Employeecode" type="text" class="validate" maxlength="3">
+									<label for="Employeecode">Employee Code</label>
+								</div>
+
+
+								<div class="input-field col s12">
+									<select id="role">
+      				<option value="Developer" selected>Developer</option>
+      				<option value="Team_leader">Team leader</option>
+      				<option value="Project_manager">Project manager</option>
+    					</select>
+									<label>Employee Role</label>
+								</div>
+
+
+								<div class="input-field col s12">
+									<input type="text" id="dateofjoin" class="datepicker" value="">
+									<label for="dateofjoin">Date of Join</label>
+								</div>
+
+
+
+								<div class="input-field col s12">
+									<select id="report">
+								<option value="Team_leader">Team leader</option>
+								<option value="Project_manager">Project manager</option>
+								</select>
+									<label>Report</label>
+								</div>
+
+								<div class="input-field col s12">
+									<input id="password" type="password" class="validate" value="">
+									<label for="password">password</label>
+								</div>
+								<div class="input-field col s12">
+									<!-- {% csrf_token %} -->
+									<input id="confirmpassword" type="password" class="validate">
+									<label for="confirmpassword">confirm password</label>
+								</div>
+							</div>
+							<div class="card-action">
+								<button class="btn red waves-effect waves-red" id="save-employee">Submit
+							<i class="material-icons right">send</i>
+						</button>
+
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+
+
+
+			<div id="test-swipe-2" class="col s12">
+				<div class="card">
+					<div class="card-content" style="padding:0px;margin:0">
+						<table id="tabledata" class="highlight centered" >
+							<thead >
+								<tr>
+									<th>Code</th>
+									<th>Email</th>
+									<th>DateOfJoin</th>
+									<th>Role</th>
+									<th>Report To</th>
+								</tr>
+							</thead>
+
+							<tbody style="padding:30px;text-align:center;">
+
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+
+
+
+
+
+
+
+
+			</div>
+			<div id="test-swipe-3" class="col s12">
+				<h1>update employee</h1>
+			</div>
+		</div>
+
+
+	</div>
+</div>
+<script type="text/javascript">
+	function listemployee() {
+		$.get("http://localhost:8000/api/employee/", function(data) {
+			console.log(data.results[0].length);
+			for (var i = 0; i < data.results.length; i++) {
+				$("#tabledata").find('tbody')
+					.append($('<tr>').append($('<td>').append(data.results[i].emp_code))
+						.append($('<td>').append(data.results[i].emp_email))
+						.append($('<td>').append(data.results[i].emp_datejoin))
+						.append($('<td>').append(data.results[i].emp_role))
+						.append($('<td>').append(data.results[i].emp_report))
+					);
+			}
+		});
+	}
+
+
+	$(document).ready(function() {
+		$('select').material_select();
+		$('.datepicker').pickadate({
+			format: 'yyyy-mm-dd',
+			selectMonths: true,
+			selectYears: 15,
+			today: 'Today',
+			clear: 'Clear',
+			close: 'Ok',
+			closeOnSelect: false
+		});
+
+		$("#save-employee").click(function(event) {
+			event.preventDefault();
+			var emp_email = $('#email').val();
+			var emp_code = $('#Employeecode').val();
+			var emp_datejoin = $('#dateofjoin').val();
+			var emp_role = $('#role').find(":selected").val();
+			var emp_report = $('#report').find(":selected").val();
+			var password1 = $('#password').val();
+			var password2 = $('#confirmpassword').val();
+
+			$.ajax({
+				type: "POST",
+				url: "http://localhost:8000/api/users/register/",
+				data: JSON.stringify({
+					"emp_email": `${emp_email}`,
+					"emp_code": `${emp_code}`,
+					"emp_datejoin": `${emp_datejoin}`,
+					"emp_role": `${emp_role}`,
+					"emp_report": `${emp_report}`,
+					"password1": `${password1}`,
+					"password2": `${password2}`
+				}),
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				success: function() {
+					Materialize.toast('Yeah! Its Saved', 4000);
+					document.getElementById("employee_form").reset();
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+				}
+			});
+		});
+	});
+</script>
+</div>
+{% endblock %}

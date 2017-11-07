@@ -24,7 +24,7 @@ from .serializers import (
 class EmployeeLeaveAPIView(CreateAPIView):
     queryset = LeaveModel.objects.all()
     serializer_class = EmployeeLeaveSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -34,7 +34,7 @@ class EmployeeLeaveListAPIView(ListAPIView):
 	queryset = LeaveModel.objects.all()
 	serializer_class = EmployeeLeaveListSerializer
 	filter_backends= [SearchFilter, OrderingFilter]
-	permission_classes = [AllowAny]
+	permission_classes = [IsAuthenticated]
 	search_fields = ['emp_leavedate']
 
 def get_queryset(self, *args, **kwargs):

@@ -1,12 +1,17 @@
-{% extends "firstapp/base.html" %}
-{% load staticfiles %}
-{% block content %}
-{% if user.is_authenticated %}
-<div>
-<h1>you are logged in</h1>
+{% extends "base.html" %} {% load staticfiles %} {% block content %}
+<title>Travidux</title>
+<div class="row padtop">
+	<div class="col s6 offset-s3 m6 offset-m3">
+		<div class="card red lighten-1 hoverable">
+			<div class="card-content white-text">
+				{% if user.is_authenticated %}
+				<h5>You are logged in as {{request.user}} </h5>
+				{% else %}
+				<h5>You are not logged in</h5>
+				{% endif %}
+			</div>
+		</div>
+	</div>
 </div>
-{% else %}
-<div>
-	<h1>You are not logged in</h1>
-</div>
-{% endif %} {% endblock %}
+
+{% endblock %}

@@ -19,11 +19,12 @@ from . import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$',views.HomePage.as_view(),name='home'),
-    # url(r'^accounts/',include('accounts.urls', namespace='accounts')),
-    # url(r'^accounts/',include('django.contrib.auth.urls')),
-	# url(r'^employee/',include('firstapp.urls',namespace='employee')),
+    url(r'^accounts/',include('accounts.urls', namespace='accounts')),
+    url(r'^accounts/',include('django.contrib.auth.urls')),
+	url(r'^employee/',include('accounts.urls',namespace='employee')),
 	# url(r'^api/auth/token/', obtain_jwt_token),
     url(r'^api/users/', include("accounts.api.urls", namespace='users-api')),
     url(r'^api/leave/', include("leaveapp.api.urls", namespace='leave-api')),
     url(r'^api/employee/', include("employee.api.urls", namespace='employee-api')),
+    url(r'^api-auth/', include('rest_framework.urls',namespace='rest_framework')),
 ]
