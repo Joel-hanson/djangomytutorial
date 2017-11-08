@@ -1,11 +1,15 @@
 {% extends "base.html" %} {% block content %}
 <style media="screen">
-	.tabborder {
-		border: 1px solid black;
-	}
-th{
-	margin: 40px;
+td{
+	padding: 10px 5px;
 }
+th{
+	padding: 10px 5px;
+}
+#tabs-swipe-demo{
+	overflow-x: hidden;
+}
+.modal { width: 75% !important ; height: 75% !important ; }
 </style>
 <title>Employee Title</title>
 <div class="container padtop ">
@@ -18,9 +22,8 @@ th{
 
 			<div class="card blue-grey lighten-5 ">
 				<ul id="tabs-swipe-demo" class="tabs">
-					<li class="tab col s4"><a class="active" href="#test-swipe-1">Enter employee</a></li>
-					<li class="tab col s4"><a href="#test-swipe-2" onclick="listemployee()">List Employee</a></li>
-					<li class="tab col s4"><a href="#test-swipe-3">Update Employee</a></li>
+					<li class="tab col s6 m6 l6"><a class="active" href="#test-swipe-1">Enter employee</a></li>
+					<li class="tab col s6 m6 l6"><a href="#test-swipe-2" >List Employee</a></li>
 				</ul>
 
 
@@ -90,64 +93,161 @@ th{
 
 
 
-			<div id="test-swipe-2" class="col s12">
-				<div class="card">
-					<div class="card-content" style="padding:0px;margin:0">
-						<table id="tabledata" class="highlight centered" >
-							<thead >
-								<tr>
-									<th>Code</th>
-									<th>Email</th>
-									<th>DateOfJoin</th>
-									<th>Role</th>
-									<th>Report To</th>
-								</tr>
-							</thead>
+			<div id="test-swipe-2" >
+					<div class="card-panel" style="padding:0;">
+							<table id="tabledata" class="highlight centered responsive-table">
+								<thead>
+									<tr>
+										<th>Code</th>
+										<th>Email</th>
+										<th>DateOfJoin</th>
+										<th>Role</th>
+										<th>Report To</th>
+										<th>Update or Delete</th>
+									</tr>
+								</thead>
 
-							<tbody style="padding:30px;text-align:center;">
+								<tbody>
 
 
-							</tbody>
-						</table>
+								</tbody>
+							</table>
 					</div>
+			</div>
+
+
+		</div>
+	</div>
+
+
+
+	<div id="modal1" class="modal">
+		<div class="modal-content">
+			<form class="col s12" id='employee_updateform'>
+				<span class="card-title">Update the Employee or delete Employee</span>
+				<p id="email"></p>
+				<div class="row">
+
+					<div class="input-field col s12">
+						<input id="updateEmployeecode" type="text" class="validate" maxlength="3">
+						<label for="updateEmployeecode" class="active">Employee Code</label>
+					</div>
+
+
+
+					<div class="input-field col s12">
+						<input type="text" id="updatedateofjoin" class="datepicker" value="">
+						<label for="updatedateofjoin" class="active">Date of Join</label>
+					</div>
+
+
+
+					<div class="input-field col s12">
+						<select id="updatereport">
+					<option value="Team_leader">Team leader</option>
+					<option value="Project_manager">Project manager</option>
+					</select>
+						<label>Report</label>
+					</div>
+
+
 				</div>
+				<div class="card-action">
+					<button class="btn red waves-effect waves-red" id="update-employee">Update
+				<i class="material-icons right">update</i>
+			</button>
+			<button class="btn red waves-effect waves-red" id="delete-employee">Delete
+			<i class="material-icons right">delete</i>
+			</button>
+				</div>
+			</form>
 
 
 
 
-
-
-
-
-
-			</div>
-			<div id="test-swipe-3" class="col s12">
-				<h1>update employee</h1>
-			</div>
 		</div>
 
-
 	</div>
+
+
 </div>
 <script type="text/javascript">
-	function listemployee() {
-		$.get("http://localhost:8000/api/employee/", function(data) {
-			console.log(data.results[0].length);
-			for (var i = 0; i < data.results.length; i++) {
-				$("#tabledata").find('tbody')
-					.append($('<tr>').append($('<td>').append(data.results[i].emp_code))
-						.append($('<td>').append(data.results[i].emp_email))
-						.append($('<td>').append(data.results[i].emp_datejoin))
-						.append($('<td>').append(data.results[i].emp_role))
-						.append($('<td>').append(data.results[i].emp_report))
-					);
+var globalupdateurl;
+var globalupdateemail;
+var dupglobalupdateurl;
+var dupglobalupdateemail;
+
+function getlistdata() {
+
+			$.get("http://localhost:8000/api/employee/", function(data) {
+				console.log(data.results[0].length);
+				for (var i = 0; i < data.results.length; i++) {
+					switch (data.results[i].emp_role) {
+						case 1:
+							data.results[i].emp_role = "Developer";
+							break;
+						case 2:
+							data.results[i].emp_role = "Team_leader";
+							break;
+						case 3:
+							data.results[i].emp_role = "Project_manager";
+							break;
+					}
+					$("#tabledata").find('tbody')
+						.append($('<tr>')
+							.append($('<td>').append(data.results[i].emp_code))
+							.append($('<td>').append(data.results[i].emp_email))
+							.append($('<td>').append(data.results[i].emp_datejoin))
+							.append($('<td>').append(data.results[i].emp_role))
+							.append($('<td>').append(data.results[i].emp_report))
+							.append($('<td>').append("<a class='waves-effect waves-light btn-small modal-trigger' href=\"#modal1\" onclick='getputdata(\""+data.results[i].url+"\")'>update/delete</a>"))
+						);
+				}
+			});
+
+
+}
+
+
+
+
+	function getputdata(urldata){
+		dupglobalupdateurl = urldata;
+		$.get(urldata, function(data) {
+dupglobalupdateemail= data.emp_email;
+			switch (data.emp_role) {
+				case 1:
+					data.emp_role = "Developer";
+					break;
+				case 2:
+					data.emp_role = "Team_leader";
+					break;
+				case 3:
+					data.emp_role = "Project_manager";
+					break;
 			}
-		});
+	$('#updateEmployeecode').val(data.emp_code);
+	$('#updatedateofjoin').val(data.emp_datejoin);
+	$('#updaterole').find(":selected").val(data.emp_role);
+	$('#updatereport').find(":selected").val(data.emp_report);
+
+
+			});
 	}
 
 
+
+
+
 	$(document).ready(function() {
+
+
 		$('select').material_select();
+		$('.modal').modal({
+			ready: function(modal, trigger) {
+        Materialize.updateTextFields();
+      },
+		});
 		$('.datepicker').pickadate({
 			format: 'yyyy-mm-dd',
 			selectMonths: true,
@@ -157,6 +257,38 @@ th{
 			close: 'Ok',
 			closeOnSelect: false
 		});
+		// listemployee
+
+		Materialize.updateTextFields();
+
+		$.get("http://localhost:8000/api/employee/", function(data) {
+			console.log(data.results[0].length);
+			for (var i = 0; i < data.results.length; i++) {
+				switch (data.results[i].emp_role) {
+					case 1:
+						data.results[i].emp_role = "Developer";
+						break;
+					case 2:
+						data.results[i].emp_role = "Team_leader";
+						break;
+					case 3:
+						data.results[i].emp_role = "Project_manager";
+						break;
+				}
+				$("#tabledata").find('tbody')
+					.append($('<tr>')
+						.append($('<td>').append(data.results[i].emp_code))
+						.append($('<td>').append(data.results[i].emp_email))
+						.append($('<td>').append(data.results[i].emp_datejoin))
+						.append($('<td>').append(data.results[i].emp_role))
+						.append($('<td>').append(data.results[i].emp_report))
+						.append($('<td>').append("<a class='waves-effect waves-light btn-small modal-trigger' href=\"#modal1\" onclick='getputdata(\""+data.results[i].url+"\")'>update/delete</a>"))
+					);
+			}
+		});
+
+
+		// post employee
 
 		$("#save-employee").click(function(event) {
 			event.preventDefault();
@@ -167,6 +299,7 @@ th{
 			var emp_report = $('#report').find(":selected").val();
 			var password1 = $('#password').val();
 			var password2 = $('#confirmpassword').val();
+
 
 			$.ajax({
 				type: "POST",
@@ -193,7 +326,75 @@ th{
 				}
 			});
 		});
+
+// put employee
+
+
+		$("#update-employee").click(function(event) {
+			globalupdateurl=dupglobalupdateurl;
+			globalupdateemail=dupglobalupdateemail;
+			globalupdateurl = globalupdateurl+"edit/";
+
+			event.preventDefault();
+			var emp_email = globalupdateemail;
+			var emp_code = $('#updateEmployeecode').val();
+			var emp_datejoin = $('#updatedateofjoin').val();
+			var emp_report = $('#updatereport').find(":selected").val();
+			$.ajax({
+				type: "PUT",
+				url: globalupdateurl,
+				data: JSON.stringify({
+					"emp_email": `${emp_email}`,
+					"emp_code": `${emp_code}`,
+					"emp_datejoin": `${emp_datejoin}`,
+					"emp_report": `${emp_report}`,
+				}),
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				success: function() {
+					Materialize.toast('Yeah! Its updated', 4000);
+					document.getElementById("employee_updateform").reset();
+					$('#modal1').modal('close');
+					$("#tabledata").find('tbody').find('tr').remove();
+getlistdata()
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+				}
+			});
+		});
+
+
+				$("#delete-employee").click(function(event) {
+					globalupdateurl=dupglobalupdateurl;
+					globalupdateurl = globalupdateurl+"delete/";
+					event.preventDefault();
+					$.ajax({
+						type: "DELETE",
+						url: globalupdateurl,
+						// headers: {
+						// 	'Accept': 'application/json',
+						// 	'Content-Type': 'application/json'
+						// },
+						success: function() {
+							Materialize.toast('Yeah! Its Deleted', 4000);
+							document.getElementById("employee_updateform").reset();
+							$('#modal1').modal('close');
+							$("#tabledata").find('tbody').find('tr').remove();
+							getlistdata()
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+						}
+					});
+				});
+
+
+
+
 	});
 </script>
-</div>
+
 {% endblock %}

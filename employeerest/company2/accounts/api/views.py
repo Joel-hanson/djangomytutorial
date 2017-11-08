@@ -26,7 +26,6 @@ from rest_framework.permissions import (
     IsAuthenticated,
     IsAdminUser,
     IsAuthenticatedOrReadOnly,
-
     )
 
 from .permissions import IsOwnerOrReadOnly

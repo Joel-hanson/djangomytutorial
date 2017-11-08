@@ -8,6 +8,7 @@ from rest_framework.filters import (
 from rest_framework.generics import (
     CreateAPIView,
     ListAPIView,
+	RetrieveUpdateAPIView
     )
 from rest_framework.permissions import (
     AllowAny,
@@ -37,12 +38,18 @@ class EmployeeLeaveListAPIView(ListAPIView):
 	permission_classes = [IsAuthenticated]
 	search_fields = ['emp_leavedate']
 
-def get_queryset(self, *args, **kwargs):
-	#queryset_list = super(PostListAPIView, self).get_queryset(*args, **kwargs)
-	queryset_list = LeaveModel.objects.all() #filter(user=self.request.user)
-	query = self.request.GET.get("q")
-	if query:
-		queryset_list = queryset_list.filter(
-				Q(emp_leavedate__icontains=query)
-				).distinct()
-	return queryset_list
+	def get_queryset(self, *args, **kwargs):
+		#queryset_list = super(PostListAPIView, self).get_queryset(*args, **kwargs)
+		queryset_list = LeaveModel.objects.all() #filter(user=self.request.user)
+		query = self.request.GET.get("q")
+		if query:
+			queryset_list = queryset_list.filter(
+					Q(emp_leavedate__icontains=query)
+					).distinct()
+		return queryset_list
+
+class EmployeeLeaveUpdateAPIView(RetrieveUpdateAPIView):
+    queryset = LeaveModel.objects.all()
+    serializer_class = EmployeeLeaveListSerializer
+    lookup_field = "id"
+    permission_classes = [AllowAny]

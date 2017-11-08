@@ -2,16 +2,17 @@ from rest_framework.serializers import (
     CharField,
     HyperlinkedIdentityField,
     ModelSerializer,
-    SerializerMethodField
+    SerializerMethodField,
+    ReadOnlyField
     )
 
 from accounts.api.serializers import UserDetailSerializer
 from accounts.models import LeaveModel
-
-leave_detail_url = HyperlinkedIdentityField(
-        view_name='employee-api:Leave_list',
-        lookup_field='pk'
-        )
+#
+# leave_detail_url = HyperlinkedIdentityField(
+#         view_name='employee-api:Leave_sanction',
+#         lookup_field='id'
+#         )
 
 class EmployeeLeaveSerializer(ModelSerializer):
 	emp_LeaveUser = CharField(read_only=True)
@@ -33,17 +34,21 @@ class EmployeeLeaveSerializer(ModelSerializer):
     		emp_leavedate = emp_leavedate,
     		emp_leavesanction = False,
 				)
+			print(employee_obj.emp_LeaveUser)
 			employee_obj.save()
 			return validated_data
 
 class EmployeeLeaveListSerializer(ModelSerializer):
 		# url = leave_detail_url
-		# user = UserDetailSerializer(read_only=True)
+		user = ReadOnlyField(source='emp_LeaveUser.username')
 		class Meta:
 			model = LeaveModel
 			fields = [
-			# 'user',
+			# 'url',
+			'id',
+			'user',
 			'emp_LeaveUser',
 			'emp_leavedate',
 			'emp_leavesanction',
 			]
+			extra_kwargs = {'emp_leavedate': {'read_only': True},'emp_LeaveUser':{'read_only':True}}

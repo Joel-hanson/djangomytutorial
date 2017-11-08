@@ -1,9 +1,11 @@
 from rest_framework.serializers import (
     CharField,
+    ChoiceField,
     HyperlinkedIdentityField,
     ModelSerializer,
     SerializerMethodField
     )
+from django.contrib.auth.models import User,Group
 
 
 from accounts.api.serializers import UserDetailSerializer
@@ -36,6 +38,7 @@ class EmployeeCreateUpdateSerializer(ModelSerializer):
 
 class EmployeeDetailSerializer(ModelSerializer):
     url = employee_detail_url
+
     groups = UserDetailSerializer(read_only=True)
     username = UserDetailSerializer(read_only=True)
     class Meta:
@@ -48,10 +51,10 @@ class EmployeeDetailSerializer(ModelSerializer):
 			'emp_code',
 			'emp_email',
 			'emp_datejoin',
-			'emp_role',
 			'emp_report',
 
         ]
+
 
 
 

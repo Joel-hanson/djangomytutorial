@@ -8,3 +8,7 @@ class HomePageView(TemplateView):
 	template_name='login.html'
 class Employee_HandlingView(TemplateView):
 	template_name='accounts/signupemployee.html'
+class Leave_Regimen(TemplateView):
+	template_name='leave/leave_regimen.html'
+class Leave_Application(TemplateView):
+	template_name='leave/leave_application.html'

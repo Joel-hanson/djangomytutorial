@@ -45,7 +45,7 @@
 		.bggrey{
 			background-color: #eceff1
 		}
-		
+
 	</style>
 </head>
 
@@ -64,31 +64,36 @@
 				<li><a href="{% url 'logout' %}">Logout</a></li>
 				{% if user.username == 'admin' %}
 				<li><a href="{% url 'employee:employee_handling' %}">Employee Handling</a></li>
-				{% elif user.username == 'admin' and user.groups.first == 'project_manager' %}
-				<li><a href="badges.html">Leave regimen</a></li>
+				<li><a href="{% url 'employee:leave_regimen' %}">Leave regimen</a></li>
+				{% elif user.groups.first == 'project_manager' %}
+				<li><a href="{% url 'employee:leave_regimen' %}">Leave regimen</a></li>
 				{% else %}
-				<li><a href="badges.html">Leave application</a></li>
+				<li><a href="{% url 'employee:leave_application' %}">Leave application</a></li>
 				{% endif %} {% else %}
 				<li><a href="{% url 'login' %}">Login</a></li>
 				{% endif %}
 			</ul>
 			<ul class="side-nav" id="mobile-demo">
-				{% if user.is_authenticated %}
-				<li><a>{{user.groups.first}}</a></li>
+				{% if user.is_authenticated %} {% if user.groups.first %}
+				<li>{{user.groups.first}}</li>
+				{% else %}
+				<li>Admin</li>
+				{% endif %}
+				<li><a href="{% url 'logout' %}">Logout</a></li>
 				{% if user.username == 'admin' %}
 				<li><a href="{% url 'employee:employee_handling' %}">Employee Handling</a></li>
-				{% elif user.username == 'admin' and user.groups.first == 'project_manager' %}
-				<li><a href="badges.html">Leave regimen</a></li>
+				<li><a href="{% url 'employee:leave_regimen' %}">Leave regimen</a></li>
+				{% elif user.groups.first == 'project_manager' %}
+				<li><a href="{% url 'employee:leave_regimen' %}">Leave regimen</a></li>
 				{% else %}
-				<li><a href="badges.html">Leave application</a></li>
+				<li><a href="{% url 'employee:leave_application' %}">Leave application</a></li>
 				{% endif %} {% else %}
 				<li><a href="{% url 'login' %}">Login</a></li>
 				{% endif %}
-				<li><a href="{% url 'logout' %}">Logout</a></li>
 			</ul>
 		</div>
 	</nav>
-	<div class="section center-align">
+	<div class="section ">
 		{% block content %} {% endblock %}
 	</div>
 
