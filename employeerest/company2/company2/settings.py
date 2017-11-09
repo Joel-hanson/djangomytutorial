@@ -63,7 +63,7 @@ REST_FRAMEWORK = {
     ],
 }
 
-
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # REST_FRAMEWORK = {
 #     'DEFAULT_RENDERER_CLASSES': (
 #         # 'rest_framework.renderers.JSONRenderer',
@@ -174,3 +174,37 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
 LOGIN_URL='home'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Host for sending e-mail.
+EMAIL_HOST = 'localhost'
+
+# Port for sending e-mail.
+# EMAIL_PORT = 465
+# EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.zoho.com'
+EMAIL_HOST_USER = 'joelhanson@travidux.com'
+EMAIL_HOST_PASSWORD = 'percuitme@'
+EMAIL_PORT = 587
+EMAIL_USE_SSL = False
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+'''
+from django.core.mail import EmailMessage
+email = EmailMessage('title', 'body', to=['joelhanson025@gmail.com'])
+email.send()
+
+
+from django.core.mail import EmailMessage
+email = EmailMessage(
+    subject='Hello',
+    body='Body goes here',
+    to=['roshniuu@travidux.com'],
+    reply_to=['roshniuu@travidux.com'],
+    headers={'Content-Type': 'text/plain'},
+)
+email.send()
+
+'''

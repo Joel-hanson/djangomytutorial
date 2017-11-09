@@ -68,10 +68,8 @@ var z=''
 		$("#leavesanctioned").click(function(event) {
 			if ($('#'+id+'').is(':checked')) {
 				z = false
-				console.log(z);
 			} else {
 				z = true
-				console.log(z);
 
 			}
 			$.ajax({
@@ -86,11 +84,9 @@ var z=''
 				},
 				success: function() {
 					if(z) {
-						console.log(z);
 						Materialize.toast('Yeah! Its sanctioned', 4000);
 					}
 					else {
-						console.log(z);
 
 						Materialize.toast('Yeah! Its desanctioned', 4000);
 					}

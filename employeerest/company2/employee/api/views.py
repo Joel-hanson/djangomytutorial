@@ -72,7 +72,7 @@ class EmployeeListAPIView(ListAPIView):
     serializer_class = EmployeeListSerializer
     filter_backends= [SearchFilter, OrderingFilter]
     permission_classes = [AllowAny]
-    search_fields = ['emp_email', 'emp_code']
+    search_fields = ['emp_email', 'emp_code','emp_name']
 
     def get_queryset(self, *args, **kwargs):
         #queryset_list = super(PostListAPIView, self).get_queryset(*args, **kwargs)

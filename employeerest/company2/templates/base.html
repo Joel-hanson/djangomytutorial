@@ -68,7 +68,7 @@
 				{% elif user.groups.first == 'project_manager' %}
 				<li><a href="{% url 'employee:leave_regimen' %}">Leave regimen</a></li>
 				{% else %}
-				<li><a href="{% url 'employee:leave_application' %}">Leave application</a></li>
+				<li><a href="{% url 'employee:leave_application' %}">Leave application/status</a></li>
 				{% endif %} {% else %}
 				<li><a href="{% url 'login' %}">Login</a></li>
 				{% endif %}
@@ -86,7 +86,7 @@
 				{% elif user.groups.first == 'project_manager' %}
 				<li><a href="{% url 'employee:leave_regimen' %}">Leave regimen</a></li>
 				{% else %}
-				<li><a href="{% url 'employee:leave_application' %}">Leave application</a></li>
+				<li><a href="{% url 'employee:leave_application' %}">Leave application/status</a></li>
 				{% endif %} {% else %}
 				<li><a href="{% url 'login' %}">Login</a></li>
 				{% endif %}
@@ -123,7 +123,6 @@
 		return cookieValue;
 	}
 	var csrftoken = getCookie('csrftoken');
-	console.log(csrftoken);
 	$.ajaxSetup({
 		headers: {
 			'X-CSRFToken': csrftoken

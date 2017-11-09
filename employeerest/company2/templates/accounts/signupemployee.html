@@ -1,18 +1,28 @@
 {% extends "base.html" %} {% block content %}
 <style media="screen">
-td{
-	padding: 10px 5px;
-}
-th{
-	padding: 10px 5px;
-}
-#tabs-swipe-demo{
-	overflow-x: hidden;
-}
-.modal { width: 75% !important ; height: 75% !important ; }
+	td {
+		padding: 10px 5px;
+	}
+
+	th {
+		padding: 10px 5px;
+	}
+
+	#tabs-swipe-demo {
+		overflow-x: hidden;
+	}
+
+	.modal {
+		width: 75% !important;
+		height: 75% !important;
+	}
+
+	#preloader-wrapper {
+
+	}
 </style>
 <title>Employee Title</title>
-<div class="container padtop ">
+<div class="container padtop " id="formdiv">
 
 
 
@@ -23,20 +33,23 @@ th{
 			<div class="card blue-grey lighten-5 ">
 				<ul id="tabs-swipe-demo" class="tabs">
 					<li class="tab col s6 m6 l6"><a class="active" href="#test-swipe-1">Enter employee</a></li>
-					<li class="tab col s6 m6 l6"><a href="#test-swipe-2" >List Employee</a></li>
+					<li class="tab col s6 m6 l6"><a href="#test-swipe-2">List Employee</a></li>
 				</ul>
 
 
 
 				<div id="test-swipe-1" class="col s12 ">
-					<div class="card-content">
+					<div class="card-content center-align">
 						<form class="col s12" id='employee_form'>
 							<span class="card-title">Sign Up An Employee</span>
 							<div class="row">
-
 								<div class="input-field col s12">
 									<input id="email" type="email" class="validate">
 									<label for="email">Email Address</label>
+								</div>
+								<div class="input-field col s12">
+									<input id="name" type="text" class="validate">
+									<label for="name">Name</label>
 								</div>
 								<div class="input-field col s12">
 									<input id="Employeecode" type="text" class="validate" maxlength="3">
@@ -79,7 +92,7 @@ th{
 									<label for="confirmpassword">confirm password</label>
 								</div>
 							</div>
-							<div class="card-action">
+							<div class="card-action center-align">
 								<button class="btn red waves-effect waves-red" id="save-employee">Submit
 							<i class="material-icons right">send</i>
 						</button>
@@ -93,26 +106,27 @@ th{
 
 
 
-			<div id="test-swipe-2" >
-					<div class="card-panel" style="padding:0;">
-							<table id="tabledata" class="highlight centered responsive-table">
-								<thead>
-									<tr>
-										<th>Code</th>
-										<th>Email</th>
-										<th>DateOfJoin</th>
-										<th>Role</th>
-										<th>Report To</th>
-										<th>Update or Delete</th>
-									</tr>
-								</thead>
+			<div id="test-swipe-2">
+				<div class="card-panel" style="padding:0;">
+					<table id="tabledata" class="highlight centered responsive-table">
+						<thead>
+							<tr>
+								<th>Code</th>
+								<th>Name</th>
+								<th>Email</th>
+								<th>DateOfJoin</th>
+								<th>Role</th>
+								<th>Report To</th>
+								<th>Update or Delete</th>
+							</tr>
+						</thead>
 
-								<tbody>
+						<tbody>
 
 
-								</tbody>
-							</table>
-					</div>
+						</tbody>
+					</table>
+				</div>
 			</div>
 
 
@@ -133,6 +147,10 @@ th{
 						<label for="updateEmployeecode" class="active">Employee Code</label>
 					</div>
 
+					<div class="input-field col s12">
+						<input id="updatename" type="text" class="validate">
+						<label for="updatename" class="active">Name</label>
+					</div>
 
 
 					<div class="input-field col s12">
@@ -156,7 +174,7 @@ th{
 					<button class="btn red waves-effect waves-red" id="update-employee">Update
 				<i class="material-icons right">update</i>
 			</button>
-			<button class="btn red waves-effect waves-red" id="delete-employee">Delete
+					<button class="btn red waves-effect waves-red" id="delete-employee">Delete
 			<i class="material-icons right">delete</i>
 			</button>
 				</div>
@@ -171,16 +189,33 @@ th{
 
 
 </div>
-<script type="text/javascript">
-var globalupdateurl;
-var globalupdateemail;
-var dupglobalupdateurl;
-var dupglobalupdateemail;
+<div id="preloader-wrapper " style="display: none;align-items: center;justify-content: center;margin-top:100px;">
+	<div class="preloader-wrapper big active">
+    <div class="spinner-layer spinner-blue-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
 
-function getlistdata() {
+		</div>
+
+	</div>
+	<script type="text/javascript">
+
+
+		var globalupdateurl;
+		var globalupdateemail;
+		var dupglobalupdateurl;
+		var dupglobalupdateemail;
+
+		function getlistdata() {
 
 			$.get("http://localhost:8000/api/employee/", function(data) {
-				console.log(data.results[0].length);
 				for (var i = 0; i < data.results.length; i++) {
 					switch (data.results[i].emp_role) {
 						case 1:
@@ -196,205 +231,219 @@ function getlistdata() {
 					$("#tabledata").find('tbody')
 						.append($('<tr>')
 							.append($('<td>').append(data.results[i].emp_code))
+							.append($('<td>').append(data.results[i].emp_name))
 							.append($('<td>').append(data.results[i].emp_email))
 							.append($('<td>').append(data.results[i].emp_datejoin))
 							.append($('<td>').append(data.results[i].emp_role))
 							.append($('<td>').append(data.results[i].emp_report))
-							.append($('<td>').append("<a class='waves-effect waves-light btn-small modal-trigger' href=\"#modal1\" onclick='getputdata(\""+data.results[i].url+"\")'>update/delete</a>"))
+							.append($('<td>').append("<a class='waves-effect waves-light btn-small modal-trigger ' href=\"#modal1\" onclick='getputdata(\"" + data.results[i].url + "\")'>update/delete</a>"))
 						);
 				}
 			});
 
 
-}
+		}
 
 
 
 
-	function getputdata(urldata){
-		dupglobalupdateurl = urldata;
-		$.get(urldata, function(data) {
-dupglobalupdateemail= data.emp_email;
-			switch (data.emp_role) {
-				case 1:
-					data.emp_role = "Developer";
-					break;
-				case 2:
-					data.emp_role = "Team_leader";
-					break;
-				case 3:
-					data.emp_role = "Project_manager";
-					break;
-			}
-	$('#updateEmployeecode').val(data.emp_code);
-	$('#updatedateofjoin').val(data.emp_datejoin);
-	$('#updaterole').find(":selected").val(data.emp_role);
-	$('#updatereport').find(":selected").val(data.emp_report);
-
-
-			});
-	}
-
-
-
-
-
-	$(document).ready(function() {
-
-
-		$('select').material_select();
-		$('.modal').modal({
-			ready: function(modal, trigger) {
-        Materialize.updateTextFields();
-      },
-		});
-		$('.datepicker').pickadate({
-			format: 'yyyy-mm-dd',
-			selectMonths: true,
-			selectYears: 15,
-			today: 'Today',
-			clear: 'Clear',
-			close: 'Ok',
-			closeOnSelect: false
-		});
-		// listemployee
-
-		Materialize.updateTextFields();
-
-		$.get("http://localhost:8000/api/employee/", function(data) {
-			console.log(data.results[0].length);
-			for (var i = 0; i < data.results.length; i++) {
-				switch (data.results[i].emp_role) {
+		function getputdata(urldata) {
+			dupglobalupdateurl = urldata;
+			$.get(urldata, function(data) {
+				dupglobalupdateemail = data.emp_email;
+				switch (data.emp_role) {
 					case 1:
-						data.results[i].emp_role = "Developer";
+						data.emp_role = "Developer";
 						break;
 					case 2:
-						data.results[i].emp_role = "Team_leader";
+						data.emp_role = "Team_leader";
 						break;
 					case 3:
-						data.results[i].emp_role = "Project_manager";
+						data.emp_role = "Project_manager";
 						break;
 				}
-				$("#tabledata").find('tbody')
-					.append($('<tr>')
-						.append($('<td>').append(data.results[i].emp_code))
-						.append($('<td>').append(data.results[i].emp_email))
-						.append($('<td>').append(data.results[i].emp_datejoin))
-						.append($('<td>').append(data.results[i].emp_role))
-						.append($('<td>').append(data.results[i].emp_report))
-						.append($('<td>').append("<a class='waves-effect waves-light btn-small modal-trigger' href=\"#modal1\" onclick='getputdata(\""+data.results[i].url+"\")'>update/delete</a>"))
-					);
-			}
-		});
+				$('#updateEmployeecode').val(data.emp_code);
+				$('#updatename').val(data.emp_name);
+				$('#updatedateofjoin').val(data.emp_datejoin);
+				$('#updaterole').find(":selected").val(data.emp_role);
+				$('#updatereport').find(":selected").val(data.emp_report);
 
 
-		// post employee
-
-		$("#save-employee").click(function(event) {
-			event.preventDefault();
-			var emp_email = $('#email').val();
-			var emp_code = $('#Employeecode').val();
-			var emp_datejoin = $('#dateofjoin').val();
-			var emp_role = $('#role').find(":selected").val();
-			var emp_report = $('#report').find(":selected").val();
-			var password1 = $('#password').val();
-			var password2 = $('#confirmpassword').val();
+			});
+		}
 
 
-			$.ajax({
-				type: "POST",
-				url: "http://localhost:8000/api/users/register/",
-				data: JSON.stringify({
-					"emp_email": `${emp_email}`,
-					"emp_code": `${emp_code}`,
-					"emp_datejoin": `${emp_datejoin}`,
-					"emp_role": `${emp_role}`,
-					"emp_report": `${emp_report}`,
-					"password1": `${password1}`,
-					"password2": `${password2}`
-				}),
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
+
+
+
+		$(document).ready(function() {
+
+
+			$('select').material_select();
+			$('.modal').modal({
+				ready: function(modal, trigger) {
+					Materialize.updateTextFields();
 				},
-				success: function() {
-					Materialize.toast('Yeah! Its Saved', 4000);
-					document.getElementById("employee_form").reset();
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+			});
+			$('.datepicker').pickadate({
+				format: 'yyyy-mm-dd',
+				selectMonths: true,
+				selectYears: 15,
+				today: 'Today',
+				clear: 'Clear',
+				close: 'Ok',
+				closeOnSelect: false
+			});
+			// listemployee
+
+			Materialize.updateTextFields();
+
+			$.get("http://localhost:8000/api/employee/", function(data) {
+				for (var i = 0; i < data.results.length; i++) {
+					switch (data.results[i].emp_role) {
+						case 1:
+							data.results[i].emp_role = "Developer";
+							break;
+						case 2:
+							data.results[i].emp_role = "Team_leader";
+							break;
+						case 3:
+							data.results[i].emp_role = "Project_manager";
+							break;
+					}
+					$("#tabledata").find('tbody')
+						.append($('<tr>')
+							.append($('<td>').append(data.results[i].emp_code))
+							.append($('<td>').append(data.results[i].emp_name))
+							.append($('<td>').append(data.results[i].emp_email))
+							.append($('<td>').append(data.results[i].emp_datejoin))
+							.append($('<td>').append(data.results[i].emp_role))
+							.append($('<td>').append(data.results[i].emp_report))
+							.append($('<td>').append("<a class='waves-effect waves-light btn-small modal-trigger' href=\"#modal1\" onclick='getputdata(\"" + data.results[i].url + "\")'>update/delete</a>"))
+						);
 				}
 			});
-		});
-
-// put employee
 
 
-		$("#update-employee").click(function(event) {
-			globalupdateurl=dupglobalupdateurl;
-			globalupdateemail=dupglobalupdateemail;
-			globalupdateurl = globalupdateurl+"edit/";
+			// post employee
 
-			event.preventDefault();
-			var emp_email = globalupdateemail;
-			var emp_code = $('#updateEmployeecode').val();
-			var emp_datejoin = $('#updatedateofjoin').val();
-			var emp_report = $('#updatereport').find(":selected").val();
-			$.ajax({
-				type: "PUT",
-				url: globalupdateurl,
-				data: JSON.stringify({
-					"emp_email": `${emp_email}`,
-					"emp_code": `${emp_code}`,
-					"emp_datejoin": `${emp_datejoin}`,
-					"emp_report": `${emp_report}`,
-				}),
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-				success: function() {
-					Materialize.toast('Yeah! Its updated', 4000);
-					document.getElementById("employee_updateform").reset();
-					$('#modal1').modal('close');
-					$("#tabledata").find('tbody').find('tr').remove();
-getlistdata()
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
-				}
-			});
-		});
+			$("#save-employee").click(function(event) {
+				$('#formdiv').hide();
+				$('#preloader-wrapper').show().css('display', 'flex');
 
 
-				$("#delete-employee").click(function(event) {
-					globalupdateurl=dupglobalupdateurl;
-					globalupdateurl = globalupdateurl+"delete/";
-					event.preventDefault();
-					$.ajax({
-						type: "DELETE",
-						url: globalupdateurl,
-						// headers: {
-						// 	'Accept': 'application/json',
-						// 	'Content-Type': 'application/json'
-						// },
-						success: function() {
-							Materialize.toast('Yeah! Its Deleted', 4000);
-							document.getElementById("employee_updateform").reset();
-							$('#modal1').modal('close');
-							$("#tabledata").find('tbody').find('tr').remove();
-							getlistdata()
-						},
-						error: function(XMLHttpRequest, textStatus, errorThrown) {
-							alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+				event.preventDefault();
+				var emp_email = $('#email').val();
+				var emp_name = $('#name').val();
+				var emp_code = $('#Employeecode').val();
+				var emp_datejoin = $('#dateofjoin').val();
+				var emp_role = $('#role').find(":selected").val();
+				var emp_report = $('#report').find(":selected").val();
+				var password1 = $('#password').val();
+				var password2 = $('#confirmpassword').val();
+				console.log(emp_name);
+
+				$.ajax({
+					type: "POST",
+					url: "http://localhost:8000/api/users/register/",
+					data: JSON.stringify({
+						"emp_email": `${emp_email}`,
+						"emp_name": `${emp_name}`,
+						"emp_code": `${emp_code}`,
+						"emp_datejoin": `${emp_datejoin}`,
+						"emp_role": `${emp_role}`,
+						"emp_report": `${emp_report}`,
+						"password1": `${password1}`,
+						"password2": `${password2}`
+					}),
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json'
+					},
+					success: function() {
+						Materialize.toast('Yeah! Its Saved', 4000);
+
+						function closeas() {
+							Materialize.Toast.removeAll();
 						}
-					});
+						var $toastContent = $('<span>Verification mail is send</span>').add($('<button class="btn-flat toast-action" onclick="closeas()">Ok</button>'));
+						Materialize.toast($toastContent, 10000);
+						document.getElementById("employee_form").reset();
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+					}
 				});
+				$('#formdiv').show();
+				$('#preloader-wrapper').show().css('display', 'none');
+
+			});
+			// put employee
+
+
+			$("#update-employee").click(function(event) {
+				globalupdateurl = dupglobalupdateurl;
+				globalupdateemail = dupglobalupdateemail;
+				globalupdateurl = globalupdateurl + "edit/";
+
+				event.preventDefault();
+				var emp_email = globalupdateemail;
+				var emp_code = $('#updateEmployeecode').val();
+				var emp_name = $('#updatename').val();
+				var emp_datejoin = $('#updatedateofjoin').val();
+				var emp_report = $('#updatereport').find(":selected").val();
+				$.ajax({
+					type: "PUT",
+					url: globalupdateurl,
+					data: JSON.stringify({
+						"emp_email": `${emp_email}`,
+						"emp_name": `${emp_name}`,
+						"emp_code": `${emp_code}`,
+						"emp_datejoin": `${emp_datejoin}`,
+						"emp_report": `${emp_report}`,
+					}),
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json'
+					},
+					success: function() {
+						Materialize.toast('Yeah! Its updated', 4000);
+						document.getElementById("employee_updateform").reset();
+						$('#modal1').modal('close');
+						$("#tabledata").find('tbody').find('tr').remove();
+						getlistdata()
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+					}
+				});
+			});
+
+
+			$("#delete-employee").click(function(event) {
+				globalupdateurl = dupglobalupdateurl;
+				globalupdateurl = globalupdateurl + "delete/";
+				event.preventDefault();
+				$.ajax({
+					type: "DELETE",
+					url: globalupdateurl,
+					success: function() {
+						Materialize.toast('Yeah! Its Deleted', 4000);
+						document.getElementById("employee_updateform").reset();
+						$('#modal1').modal('close');
+						$("#tabledata").find('tbody').find('tr').remove();
+						getlistdata()
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+					}
+				});
+			});
 
 
 
 
-	});
-</script>
+		});
+	</script>
 
-{% endblock %}
+	{% endblock %}
