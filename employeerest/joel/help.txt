@@ -1,0 +1,23 @@
+pip3 install djangorestframework
+pip3 install django-bootstrap3
+
+
+pg_dump -Uadmin -hlocalhost company>Joel.sql
+
+
+change zoho emailid and password in settings.py in the folder company2("bootom of the file ")
+change the email id in emails.py in the folder accounts
+
+eg:
+settings.py
+		EMAIL_HOST_USER = '<--mailid here--->'
+		EMAIL_HOST_PASSWORD = ' <--PASSWORD here--->'
+emails.py
+		subject, from_email, to = 'Email verification', '<---mailid here--->', self.mail
+
+
+
+
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py runserver 0.0.0.0:8000

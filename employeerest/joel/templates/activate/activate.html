@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% block content %}
+<title>activate link</title>
+<div class="row">
+	<div class="col s10 offset-s1 m10 offset-m1 l10 offset-l1 ">
+		<div class="container">
+
+			<div class="card-panel red ">
+				<h4 class="white-text center-align">Your account is Activated</h4>
+			</div>
+		</div>
+
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		active = true
+		$.ajax({
+			type: "PUT",
+			url: 'http://0.0.0.0:8000/api/users/activate/list/'+{{pk}}+'/',
+			data: JSON.stringify({
+				"active":active
+			}),
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			success: function() {
+				Materialize.toast('Yeah! Its Activated', 4000);
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+			}
+		});
+
+	});
+</script>
+
+{% endblock %}
