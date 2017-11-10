@@ -3,7 +3,7 @@
 
 <div>
 	<div class="row padtop">
-		<div class="col s8 offset-s2 m8 offset-m2 l8 offset-l2">
+		<div class="col s12 m8 offset-m2 l8 offset-l2">
 			<div class="card White ">
 				<div class="card-content red-text">
 					<span class="card-title center-align">Enter The Date You what to apply leave</span>
@@ -43,7 +43,7 @@
 	var yyyy = today.getFullYear();
 
 	function getlistdata(urldata) {
-		$.get("http://localhost:8000/api/leave/", function(data) {
+		$.get("http://0.0.0.0:8000/api/leave/", function(data) {
 			for (var i = 0; i < data.results.length; i++) {
 				if (data.results[i].user == '{{request.user}}' && data.results[i].user != 'admin') {
 					$("#bindpoint")
@@ -68,7 +68,7 @@
 			max: new Date(2030, 7, 14),
 			format: 'yyyy-mm-dd',
 		});
-		$.get("http://localhost:8000/api/leave/", function(data) {
+		$.get("http://0.0.0.0:8000/api/leave/", function(data) {
 			for (var i = 0; i < data.results.length; i++) {
 				if (data.results[i].user == '{{request.user}}' && data.results[i].user != 'admin') {
 					$("#bindpoint")
@@ -86,7 +86,7 @@
 			event.preventDefault();
 			$.ajax({
 				type: "POST",
-				url: "http://localhost:8000/api/leave/apply/",
+				url: "http://0.0.0.0:8000/api/leave/apply/",
 				data: JSON.stringify({
 					"emp_leavedate": leavedate,
 				}),

@@ -12,8 +12,6 @@ class IsOwnerOrReadOnly(BasePermission):
     def has_object_permission(self, request, view, obj):
         #member = Membership.objects.get(user=request.user)
         #member.is_active
-        print(obj,view,request)
-        print(request.user)
         if request.method in SAFE_METHODS:
             return True
         return 'joelhanson' == request.user

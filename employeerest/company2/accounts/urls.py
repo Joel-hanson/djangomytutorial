@@ -11,5 +11,5 @@ urlpatterns = [
 	url(r'leave_regimen/$',views.Leave_Regimen.as_view(),name='leave_regimen'),
 	url(r'leave_regimen/$',views.Leave_Regimen.as_view(),name='leave_regimen'),
 	url(r'leave_application/$',views.Leave_Application.as_view(),name='leave_application'),
-	url(r'activate/$',views.Activate_TemplateView.as_view(),name='activate'),
+	url(r'activate/(?P<pk>[\w-]+)/$',views.Activate_TemplateView.as_view(),name='activate'),
 	]

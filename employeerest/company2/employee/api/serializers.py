@@ -96,7 +96,6 @@ new_item = employeeDetailSerializer(obj, data=data)
 if new_item.is_valid():
     new_item.save()
 else:
-    print(new_item.errors)
 
 
 """

@@ -64,7 +64,6 @@ class UserLoginAPIView(APIView):
 class ActivateAPIView(UpdateAPIView):
 	serializer_class = ActivateSerializer
 	queryset = ActivateModel.objects.all()
-	lookup_fields = ('emp_email')
 	permission_classes = [AllowAny]
 
 class ActivateListAPIView(ListAPIView):

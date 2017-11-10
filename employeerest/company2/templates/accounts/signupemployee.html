@@ -28,7 +28,7 @@
 
 
 	<div class="row">
-		<div class="col s10 offset-s1 m10 offset-m1 l10 offset-l1 ">
+		<div class="col s12  m10 offset-m1 l10 offset-l1 ">
 
 			<div class="card blue-grey lighten-5 ">
 				<ul id="tabs-swipe-demo" class="tabs">
@@ -162,7 +162,7 @@
 
 					<div class="input-field col s12">
 						<select id="updatereport">
-					<option value="Team_leader">Team leader</option>
+					<option value="Team_leader" selected>Team leader</option>
 					<option value="Project_manager">Project manager</option>
 					</select>
 						<label>Report</label>
@@ -189,25 +189,50 @@
 
 
 </div>
-<div id="preloader-wrapper " style="display: none;align-items: center;justify-content: center;margin-top:100px;">
-	<div class="preloader-wrapper big active">
-    <div class="spinner-layer spinner-blue-only">
-      <div class="circle-clipper left">
-        <div class="circle"></div>
-      </div><div class="gap-patch">
-        <div class="circle"></div>
-      </div><div class="circle-clipper right">
-        <div class="circle"></div>
-      </div>
-    </div>
-  </div>
-
-		</div>
+<style type="text/css">
+	#preloader-overlay {
+			content: '';
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0,0,0,0.6);
+			z-index: 20000;
+	}
+	#preloader {
+			display: none;
+			position: fixed;
+			z-index: 20001;
+			overflow: show;
+			margin: auto;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+	}
+	</style>
+	<div id='preloader-overlay' class="valign-wrapper">
+        <div id="preloader" class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-red-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
 
 	</div>
 	<script type="text/javascript">
-
-
+	// $('#loader').css({'display':'flex'});
+	// document.getElementById('loader').style.display ="flex";
+	// $('#loader').css('display', 'none');
 		var globalupdateurl;
 		var globalupdateemail;
 		var dupglobalupdateurl;
@@ -215,7 +240,7 @@
 
 		function getlistdata() {
 
-			$.get("http://localhost:8000/api/employee/", function(data) {
+			$.get("http://0.0.0.0:8000/api/employee/", function(data) {
 				for (var i = 0; i < data.results.length; i++) {
 					switch (data.results[i].emp_role) {
 						case 1:
@@ -272,7 +297,9 @@
 			});
 		}
 
-
+		function closeas() {
+			Materialize.Toast.removeAll();
+		}
 
 
 
@@ -298,7 +325,7 @@
 
 			Materialize.updateTextFields();
 
-			$.get("http://localhost:8000/api/employee/", function(data) {
+			$.get("http://0.0.0.0:8000/api/employee/", function(data) {
 				for (var i = 0; i < data.results.length; i++) {
 					switch (data.results[i].emp_role) {
 						case 1:
@@ -328,8 +355,8 @@
 			// post employee
 
 			$("#save-employee").click(function(event) {
-				$('#formdiv').hide();
-				$('#preloader-wrapper').show().css('display', 'flex');
+				$('#preloader-overlay').css('display','block');
+				$('#preloader').css('display','block');
 
 
 				event.preventDefault();
@@ -341,11 +368,10 @@
 				var emp_report = $('#report').find(":selected").val();
 				var password1 = $('#password').val();
 				var password2 = $('#confirmpassword').val();
-				console.log(emp_name);
 
 				$.ajax({
 					type: "POST",
-					url: "http://localhost:8000/api/users/register/",
+					url: "http://0.0.0.0:8000/api/users/register/",
 					data: JSON.stringify({
 						"emp_email": `${emp_email}`,
 						"emp_name": `${emp_name}`,
@@ -363,19 +389,19 @@
 					success: function() {
 						Materialize.toast('Yeah! Its Saved', 4000);
 
-						function closeas() {
-							Materialize.Toast.removeAll();
-						}
+
 						var $toastContent = $('<span>Verification mail is send</span>').add($('<button class="btn-flat toast-action" onclick="closeas()">Ok</button>'));
 						Materialize.toast($toastContent, 10000);
 						document.getElementById("employee_form").reset();
+						$('#preloader-overlay').css('display','none');
+						$('#preloader').css('display','none');
 					},
 					error: function(XMLHttpRequest, textStatus, errorThrown) {
 						alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+						$('#preloader-overlay').css('display','none');
+						$('#preloader').css('display','none');
 					}
 				});
-				$('#formdiv').show();
-				$('#preloader-wrapper').show().css('display', 'none');
 
 			});
 			// put employee

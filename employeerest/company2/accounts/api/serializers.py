@@ -65,7 +65,6 @@ class UserCreateSerializer(ModelSerializer):
 			raise ValidationError("passwords must match.")
 		return value
 	def create(self, validated_data):
-		# print(validated_data['emp_role'])
 		emp_name = validated_data['emp_name']
 		username = validated_data['emp_email']
 		email = validated_data['emp_email']
@@ -75,7 +74,6 @@ class UserCreateSerializer(ModelSerializer):
 		emp_role = validated_data['emp_role']
 		emp_report = validated_data['emp_report']
 		emp_datejoin = validated_data['emp_datejoin']
-		print('test')
 		user_obj = User(
 			username = username,
 			email = email,
@@ -92,16 +90,14 @@ class UserCreateSerializer(ModelSerializer):
 			emp_report = emp_report,
 			emp_datejoin = emp_datejoin,
 		)
-		print(validated_data)
 		user_obj.set_password(password)
 		employee_obj.save()
 		user_obj.save()
 		activate_obj = ActivateModel(
 			emp_email = email
 		)
-
 		activate_obj.save()
-		data = Emailcustomclass('http://localhost:8000/api/users/activate/list/'+str(activate_obj.id)+'/',str(email))
+		data = Emailcustomclass('http://0.0.0.0:8000/employee/activate/'+str(activate_obj.id)+'/',str(email))
 		return validated_data
 
 
@@ -119,7 +115,6 @@ class UserLoginSerializer(HyperlinkedModelSerializer):
 			]
 
 	def validate(self, data):
-		print(data)
 		return data
 
 activate_url = HyperlinkedIdentityField(
@@ -128,22 +123,11 @@ activate_url = HyperlinkedIdentityField(
 		)
 
 class ActivateSerializer(ModelSerializer):
-	emp_email = CharField(read_only=True)
 	class Meta:
 		model = ActivateModel
 		fields = [
-			'emp_email',
 			'active',
 		]
-
-
-	def validate(self, data):
-		active = validated_data['active']
-		user = validated_data['useremail']
-		activate = activate(
-			emp_email = user,
-			active = active
-		)
 
 
 class ActivateListSerializer(ModelSerializer):

@@ -29,16 +29,10 @@ class EmployeeLeaveSerializer(ModelSerializer):
 		]
 	def create(self, validated_data):
 			# emp_LeaveUser = validated_data['emp_LeaveUser']
-			print(self.context['request'].user)
 			emp_leavedate = validated_data['emp_leavedate']
-			print(str(emp_leavedate))
 			emp_LeaveUser = self.context['request'].user
-			print(emp_LeaveUser)
 			name = User.objects.get(username=emp_LeaveUser)
-			print(name)
-			print("asdas")
 			datecheck =LeaveModel.objects.filter(emp_LeaveUser=name).filter(emp_leavedate=emp_leavedate)
-			print(datecheck)
 			if(datecheck):
 				raise ValidationError("The date {} already applied".format(emp_leavedate))
 			else:

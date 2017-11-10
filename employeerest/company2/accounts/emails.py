@@ -36,5 +36,5 @@ self.mail.attach_alternative(html_content, "text/html")
 
 
 
-data = Emailcustomclass('http://localhost:8000/api/users/activate/list/5/','joelhanson025@gmail.com')
+data = Emailcustomclass('http://0.0.0.0:8000/api/users/activate/list/5/','joelhanson025@gmail.com')
 '''

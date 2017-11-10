@@ -5,7 +5,7 @@
 
 <div>
 	<div class="row padtop">
-		<div class="col s8 offset-s2 m8 offset-m2 l8 offset-l2">
+		<div class="col s12 m8 offset-m2 l8 offset-l2">
 			<div class="card White ">
 				<div class="card-content red-text">
 					<span class="card-title center-align">Sanction Leave</span>
@@ -44,7 +44,7 @@
 <script type="text/javascript">
 var z=''
 	function binddom() {
-		$.get("http://localhost:8000/api/leave/", function(data) {
+		$.get("http://0.0.0.0:8000/api/leave/", function(data) {
 			var check, sanction;
 			for (var i = 0; i < data.results.length; i++) {
 				if (data.results[i].emp_leavesanction === true) {
@@ -74,7 +74,7 @@ var z=''
 			}
 			$.ajax({
 				type: "PUT",
-				url: 'http://localhost:8000/api/leave/' + id + '/sanction/',
+				url: 'http://0.0.0.0:8000/api/leave/' + id + '/sanction/',
 				data: JSON.stringify({
 					"emp_leavesanction": z,
 				}),
@@ -108,7 +108,7 @@ var z=''
 			},
 		});
 
-		$.get("http://localhost:8000/api/leave/", function(data) {
+		$.get("http://0.0.0.0:8000/api/leave/", function(data) {
 			var check, sanction;
 			for (var i = 0; i < data.results.length; i++) {
 				if (data.results[i].emp_leavesanction === true) {

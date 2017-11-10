@@ -26,4 +26,4 @@ class Leave_Regimen(TemplateView):
 class Leave_Application(TemplateView):
 	template_name='leave/leave_application.html'
 class Activate_TemplateView(TemplateView):
-	template_name='leave/leave_application.html'
+	template_name='activate/activate.html'
