@@ -1,17 +1,186 @@
-{% extends "base.html" %} {% load staticfiles %} {% block content %}
+{% extends "base.html" %} {% load staticfiles %} {% block content %} {% load firstapp_extras %}
+<style media="screen">
+	.mycontainer {
+		margin: 0 30px 0 30px;
+	}
+</style>
 <title>Travidux</title>
-<div class="row padtop center-align">
-	<div class="col s6 offset-s3 m6 offset-m3">
-		<div class="card red lighten-1 hoverable">
-			<div class="card-content white-text">
-				{% if user.is_authenticated %}
-				<h5>You are logged in as {{request.user}} </h5>
-				{% else %}
-				<h5>You are not logged in</h5>
-				{% endif %}
+
+
+
+{% if request.user.username == "admin" %}
+<div class="row padtop ">
+	<div class="mycontainer">
+
+		<div class="col s12 m7 l7">
+			<div class="card  lighten-1 ">
+				<div class="card-content black-text">
+					<span class="card-title red-text">You have {{employee_count}} Employees</span>
+					<blockquote>
+						<table class="striped">
+							<thead>
+								<tr>
+									<th>Developers
+										<div class="chip">{{Developer_count}}</div>
+									</th>
+									<th>Team leaders
+										<div class="chip">{{Teamleader_count}}</div>
+									</th>
+									<th>Project managers
+										<div class="chip">{{ProjectManager_count}}</div>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<ul>
+											{% for x in lst_Developers %}
+											<li style="margin-bottom:12px;">{{x|title}}</li>
+											{% endfor %}
+										</ul>
+									</td>
+									<td>
+										<ul>
+											{% for x in lst_Teamleaders %}
+											<li style="margin-bottom:12px;">{{x|title}}</li>
+											{% endfor %}
+										</ul>
+									</td>
+									<td>
+										<ul>
+											{% for x in lst_ProjectManagers %}
+											<li style="margin-bottom:12px;">{{x|title}}</li>
+											{% endfor %}
+										</ul>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</blockquote>
+				</div>
+			</div>
+		</div>
+		<div class="col s12 m5 l5">
+			<div class="card  lighten-1 ">
+				<div class="card-content black-text">
+					<span class="card-title red-text">You have {{leave|length}} leaves to sanction</span>
+					<blockquote>
+						<table class=" striped">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Date</th>
+								<th>Sanction</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<ul>
+										{% for x in lst_leavenames%}
+										<li style="margin-bottom:12px;">{{x}}</li>
+										{% endfor %}
+									</ul>
+								</td>
+								<td>
+									<ul>
+										{% for x in leave %}
+										<li style="margin-bottom:12px;">{{x.emp_leavedate}}</li>
+										{% endfor %}
+									</ul>
+								</td>
+								<td>
+									<ul>
+										{% with checked="checked" %}
+										{% for x in leave %}
+										{% if x.emp_leavesanction %}
+										<li>
+												<input type="checkbox" id="test6" checked="{{checked}}" disabled/>
+												<label for="test6">sanctioned</label>
+										</li>
+									{%	else %}
+									<li style="margin-bottom:12px;">
+											<input type="checkbox" id="test6"  disabled />
+											<label for="test6">Not sanctioned</label>
+									</li>
+
+										{% endif %}
+										{% endfor %}
+										{% endwith %}
+									</ul>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+</blockquote>
+				</div>
+			</div>
+		</div>
+		<div class="col s12 m12 l12">
+			<div class="card  lighten-1 ">
+				<div class="card-content black-text">
+					<span class="card-title red-text">
+					You have {{count_ofactivated}} activated Employees
+				</span>
+				<blockquote >
+
+				<table class="responsive-table striped">
+					<thead>
+						<tr>
+							<th>Activated <div class="chip">{{count_ofactivated}}</div> </th>
+							<th>Non Activated <div class="chip">{{count_ofnonactivated}}</div></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<ul>
+									{% for x in activation%}
+									{% if x.active %}
+									<li style="margin-bottom:12px;">{{x}}</li>
+									{% endif %}
+									{% endfor %}
+								</ul>
+							</td>
+							<td>
+								<ul>
+									{% for x in activation %}
+									{% if not x.active %}
+									<li style="margin-bottom:12px;">{{x}}</li>
+									{% endif %}
+									{% endfor %}
+								</ul>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</blockquote>
+				</div>
+
 			</div>
 		</div>
 	</div>
 </div>
 
-{% endblock %}
+{% else %}
+
+<div class="row padtop center-align">
+	<div class="col s6 offset-s3 m6 offset-m3">
+		<div class="card  lighten-1 hoverable">
+			<div class="card-content red-text">
+				{% if user.is_authenticated %}
+				<h5>You are logged in as {{request.user}} </h5> {% else %}
+				<h5>You are logged out successfully</h5> {% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+{% endif %} {% endblock %}

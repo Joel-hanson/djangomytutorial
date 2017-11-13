@@ -27,14 +27,14 @@ class Emailcustomclass(object):
 	# 		)
 
 		# email.send()
-'''
-subject, from_email, to = 'Email verification', 'joelhanson@travidux.com', self.mail
-text_content = 'Travidux'
-html_content = '<a href='+self.url+'>click here To Activate</a>'
-self.mail = EmailMultiAlternatives(subject, text_content, from_email, [to])
-self.mail.attach_alternative(html_content, "text/html")
-
-
-
-data = Emailcustomclass('http://0.0.0.0:8000/api/users/activate/list/5/','joelhanson025@gmail.com')
-'''
+# '''
+# subject, from_email, to = 'Email verification', 'joelhanson@travidux.com', self.mail
+# text_content = 'Travidux'
+# html_content = '<a href='+self.url+'>click here To Activate</a>'
+# self.mail = EmailMultiAlternatives(subject, text_content, from_email, [to])
+# self.mail.attach_alternative(html_content, "text/html")
+#
+#
+#
+# data = Emailcustomclass('http://0.0.0.0:8000/api/users/activate/list/5/','joelhanson025@gmail.com')
+# '''

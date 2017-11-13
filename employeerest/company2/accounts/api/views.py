@@ -21,25 +21,19 @@ from rest_framework.generics import (
 	RetrieveAPIView,
 	RetrieveUpdateAPIView
 	)
-from rest_framework.permissions import (
-	AllowAny,
-	IsAuthenticated,
-	IsAdminUser,
-	IsAuthenticatedOrReadOnly,
-	)
-
+from rest_framework.permissions import AllowAny,IsAuthenticated,IsAdminUser,IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadOnly
 
 
+from .serializers import (
+UserCreateSerializer,
+UserLoginSerializer,
+ActivateSerializer,
+ActivateListSerializer,
+)
+
 User = get_user_model()
 
-
-from .serializers import (
-	UserCreateSerializer,
-	UserLoginSerializer,
-	ActivateSerializer,
-	ActivateListSerializer,
-	)
 
 from accounts.models import ActivateModel
 

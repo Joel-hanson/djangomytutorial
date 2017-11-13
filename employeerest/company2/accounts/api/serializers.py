@@ -97,7 +97,7 @@ class UserCreateSerializer(ModelSerializer):
 			emp_email = email
 		)
 		activate_obj.save()
-		data = Emailcustomclass('http://0.0.0.0:8000/employee/activate/'+str(activate_obj.id)+'/',str(email))
+		data = Emailcustomclass('http://192.168.0.11:8000/employee/activate/'+str(activate_obj.id)+'/',str(email))
 		return validated_data
 
 

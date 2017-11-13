@@ -2,7 +2,7 @@
 
 <title>leave_regimen</title>
 
-
+{% if user.username == "admin" or user.groups.first.name == "Project_manager" or user.groups.first.name == "Team_leader"%}
 <div>
 	<div class="row padtop">
 		<div class="col s12 m8 offset-m2 l8 offset-l2">
@@ -12,8 +12,19 @@
 					<form id="leaveform">
 						<div class=" databindclass">
 
+							<table class="responsive-table">
+								<thead>
+									<tr>
+										<th>Status</th>
+										<th>Mailid</th>
+										<th>Date</th>
+										<th>Sanction</th>
+									</tr>
+								</thead>
+								<tbody class="tabledata">
 
-
+								</tbody>
+							</table>
 						</div>
 					</form>
 
@@ -40,13 +51,17 @@
 		<a class="modal-action modal-close waves-effect waves-green btn-flat" id="leaverejected">Disagree</a>
 	</div>
 </div>
-
+{% endif %}
 <script type="text/javascript">
-var z=''
+	var z = ''
+
 	function binddom() {
-		$.get("http://0.0.0.0:8000/api/leave/", function(data) {
+
+
+		$.get("{% url 'leave-api:Leave_list'%}", function(data) {
 			var check, sanction;
 			for (var i = 0; i < data.results.length; i++) {
+
 				if (data.results[i].emp_leavesanction === true) {
 					check = "checked"
 					sanction = "desanction"
@@ -55,9 +70,8 @@ var z=''
 					sanction = "saction"
 
 				}
-				$(".databindclass").append($('<div class="dasd">').append('<div class=\"row padtop \"><div class=\"col s2 l2 m2 checktag\"><p><input type=\"checkbox\" id='+data.results[i].id+' disabled ' + check +
-					'/><label for=\"test5\">Status</label></p></div><div class=\"col s4 l4 m4 center-align checkname\">' + data.results[i].user + '</div><div class=\"col s4 l4 m4 center-align checkdate\">' + data.results[i].emp_leavedate +
-					'</div><a class=\"col s2 l2 m2 center-align \"  onclick=sanctionleave(' + data.results[i].id + ')>' + sanction + '</a></div>'));
+				$(".tabledata").append('<tr class=\"tablerow\"><ul><li><td><p><input type=\ "checkbox\" id='+data.results[i].id+' disabled ' + check +'/><label for=\ "test5\">Status</label></p></td></li></ul><ul><li><td>' + data.results[i].user + '</td></li></ul><ul><li><td>' + data.results[i].emp_leavedate + '</td></li></ul><ul><li><td><a class=\ "col s2 l2 m2 center-align \" onclick=sanctionleave('+ data.results[i].id+')>'+ sanction+'</a></td></li></ul></tr>');
+
 			}
 		});
 	}
@@ -66,7 +80,7 @@ var z=''
 		var id = id;
 		$('#modal1').modal('open');
 		$("#leavesanctioned").click(function(event) {
-			if ($('#'+id+'').is(':checked')) {
+			if ($('#' + id + '').is(':checked')) {
 				z = false
 			} else {
 				z = true
@@ -74,7 +88,7 @@ var z=''
 			}
 			$.ajax({
 				type: "PUT",
-				url: 'http://0.0.0.0:8000/api/leave/' + id + '/sanction/',
+				url: '{% url "leave-api:Leave_list" %}' + id + '/sanction/',
 				data: JSON.stringify({
 					"emp_leavesanction": z,
 				}),
@@ -83,15 +97,14 @@ var z=''
 					'Content-Type': 'application/json'
 				},
 				success: function() {
-					if(z) {
+					if (z) {
 						Materialize.toast('Yeah! Its sanctioned', 4000);
-					}
-					else {
+					} else {
 
 						Materialize.toast('Yeah! Its desanctioned', 4000);
 					}
 					$('#modal1').modal('close');
-					$(".dasd").remove();
+					$(".tablerow").remove();
 					binddom()
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -108,9 +121,10 @@ var z=''
 			},
 		});
 
-		$.get("http://0.0.0.0:8000/api/leave/", function(data) {
+		$.get("{% url 'leave-api:Leave_list'%}", function(data) {
 			var check, sanction;
 			for (var i = 0; i < data.results.length; i++) {
+				console.log(data);
 				if (data.results[i].emp_leavesanction === true) {
 					check = "checked"
 					sanction = "desanction"
@@ -119,10 +133,8 @@ var z=''
 					sanction = "saction"
 
 				}
+				$(".tabledata").append('<tr class=\"tablerow\"><ul><li><td><p><input type=\ "checkbox\" id='+data.results[i].id+' disabled ' + check +'/><label for=\ "test5\">Status</label></p></td></li></ul><ul><li><td>' + data.results[i].user + '</td></li></ul><ul><li><td>' + data.results[i].emp_leavedate + '</td></li></ul><ul><li><td><a class=\ "col s2 l2 m2 center-align \" onclick=sanctionleave('+ data.results[i].id+')>'+ sanction+'</a></td></li></ul></tr>');
 
-				$(".databindclass").append($('<div class="dasd">').append('<div class=\"row padtop \"><div class=\"col s2 l2 m2 checktag\"><p><input type=\"checkbox\" id='+data.results[i].id+' disabled ' + check +
-					'/><label for=\"test5\">Status</label></p></div><div class=\"col s4 l4 m4 center-align checkname\">' + data.results[i].user + '</div><div class=\"col s4 l4 m4 center-align checkdate\">' + data.results[i].emp_leavedate +
-					'</div><a class=\"col s2 l2 m2 center-align \"  onclick=sanctionleave(' + data.results[i].id + ')>' + sanction + '</a></div>'));
 			}
 		});
 

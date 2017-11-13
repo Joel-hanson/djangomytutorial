@@ -43,7 +43,7 @@
 	var yyyy = today.getFullYear();
 
 	function getlistdata(urldata) {
-		$.get("http://0.0.0.0:8000/api/leave/", function(data) {
+		$.get("{% url 'leave-api:Leave_list' %}", function(data) {
 			for (var i = 0; i < data.results.length; i++) {
 				if (data.results[i].user == '{{request.user}}' && data.results[i].user != 'admin') {
 					$("#bindpoint")
@@ -67,8 +67,10 @@
 			min: new Date(yyyy, mm, dd - 5),
 			max: new Date(2030, 7, 14),
 			format: 'yyyy-mm-dd',
+			closeOnSelect: true,
+			
 		});
-		$.get("http://0.0.0.0:8000/api/leave/", function(data) {
+		$.get("{% url 'leave-api:Leave_list' %}", function(data) {
 			for (var i = 0; i < data.results.length; i++) {
 				if (data.results[i].user == '{{request.user}}' && data.results[i].user != 'admin') {
 					$("#bindpoint")
@@ -86,7 +88,7 @@
 			event.preventDefault();
 			$.ajax({
 				type: "POST",
-				url: "http://0.0.0.0:8000/api/leave/apply/",
+				url: "{% url 'leave-api:Leave_apply' %}",
 				data: JSON.stringify({
 					"emp_leavedate": leavedate,
 				}),

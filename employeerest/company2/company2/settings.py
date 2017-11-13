@@ -154,24 +154,7 @@ EMAIL_HOST = '0.0.0.0'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.zoho.com'
 EMAIL_HOST_USER = 'joelhanson@travidux.com'
-EMAIL_HOST_PASSWORD = 'percuitme@'
+EMAIL_HOST_PASSWORD = 'tms@12345'
 EMAIL_PORT = 587
 EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-'''
-from django.core.mail import EmailMessage
-email = EmailMessage('title', 'body', to=['joelhanson025@gmail.com'])
-email.send()
-
-
-from django.core.mail import EmailMessage
-email = EmailMessage(
-    subject='Hello',
-    body='Body goes here',
-    to=['roshniuu@travidux.com'],
-    reply_to=['roshniuu@travidux.com'],
-    headers={'Content-Type': 'text/plain'},
-)
-email.send()
-
-'''
